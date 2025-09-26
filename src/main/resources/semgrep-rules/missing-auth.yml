@@ -1,0 +1,17 @@
+rules:
+  - id: missing-authorization-demo
+    message: "Function name suggests potentially privileged operation (admin/delete/update). Verify authorization checks."
+    languages: [javascript, python, java]
+    pattern-either:
+      - pattern: |
+          def $FUNC(...):
+              ...
+      - pattern: |
+          function $FUNC(...) {
+              ...
+    metavariable-regex:
+      metavariable: "$FUNC"
+      regex: "(?i).*admin.*|.*delete.*|.*update.*|.*create.*"
+    severity: WARNING
+    metadata:
+      category: security
